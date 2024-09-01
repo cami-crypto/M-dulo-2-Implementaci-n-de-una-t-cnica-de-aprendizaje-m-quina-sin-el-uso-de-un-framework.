@@ -17,7 +17,7 @@ Conjunto de datos que tenga características correlacionadas con las clases.
 def generate_synthetic_data(n_samples=50):
     X1 = np.random.normal(0, 1, n_samples)  # Primera característica centrada en 0
     X2 = X1 + np.random.normal(0, 0.5, n_samples)  # Segunda característica relacionada con X1
-    y = np.where(X1 + X2 > 0, 1, 0)  # Clase depende de una combinación de X1 yX2
+    y = np.where(X1 + X2 > 0, 1, 0)  # Clase depende de una combinación de X1yX2
     return np.column_stack((X1, X2, y))
 
 # Generar eldataset
@@ -33,13 +33,13 @@ dataset[:, :-1] = scaler.fit_transform(dataset[:, :-1])  #(x1, X2)
 Evalúa cada característica y sus valores únicos para encontrar la división que maximiza la ganancia de información. Devuelve el índice de la característica, el valor de la división y los grupos resultantes que ofrecen la mejor separación de las clases en el dataset.
 """
 
-# Seleccionar el mejor punto de división para un nodo.
+# Seleccionar el mejor punto de division para un ndo.
 def get_split(dataset):
     class_values = list(set(row[-1] for row in dataset))
     b_index, b_value, b_score, b_groups = 999, 999, -1, None
     # Iterar sobre cada característica
     for index in range(len(dataset[0])-1):
-        unique_values = set(row[index] for row in dataset)  # Mejor precisión en valores únicos
+        unique_values = set(row[index] for row in dataset)  # Mejorar precisión en valores únicos
         for value in unique_values:
             groups = test_split(index, value, dataset)
             gain = entropy([dataset]) - entropy(groups)
@@ -52,7 +52,7 @@ def get_split(dataset):
 Se definen las funciones para construir recursivamente el árbol de decisión, estableciendo nodos y hojas.
 """
 
-# Dividir el nodo hijo o crear nodo terminal
+# Dividir el nodo o crear unnodo terminal
 def split(node, max_depth, min_size, depth):
     left, right = node['groups']
     del(node['groups'])
@@ -96,7 +96,7 @@ def build_tree(train, max_depth, min_size):
 Se presentan funciones para hacer predicciones con el árbol de decisión entrenado y para calcular métricas de evaluación como precisión, recall, F1-score y la matriz de confusión.
 """
 
-# Hacer una predicción con un árbol de decisión
+# Hacer una predicción con el árbol de decisión
 def predict(node, row):
     if row[node['index']] < node['value']:
         if isinstance(node['left'], dict):
